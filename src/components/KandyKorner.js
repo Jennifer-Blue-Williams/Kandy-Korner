@@ -1,26 +1,34 @@
-import React from "react"
-import {LocationsList} from "./Locations/LocationsList.js"
-import { EmployeeList } from "./Employees/Employees.js"
-import { ProductList } from "./Products/ProductList.js"
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { ApplicationViews } from "./ApplicationViews";
+import { NavBar } from "./nav/NavBar";
+import { Login } from "./auth/Login";
+import { Register } from "./auth/Register";
+import "./KandyKorner.css";
 
-export const KandyKorner = () => {
+export const KandyKorner = () => (
+  <>
+    <Route
+      render={() => {
+        if (localStorage.getItem("kandy_customer")) {
+          return (
+            <>
+              <NavBar />
+              <h1>Kandy Korner</h1>
+              <ApplicationViews />
+            </>
+          );
+        } else {
+          return <Redirect to="/login" />;
+        }
+      }}
+    />
 
-    return (
-        <>
-
-        <h1>Kandy Korner Sugar Shop</h1>
-
-        <h1>Locations</h1>
-        <LocationsList />
-
-        <h1>Products</h1>
-        <ProductList />
-        
-        <h1>Employees</h1>
-        <EmployeeList />
-
-        </>
-
-    )
-    
-}
+    <Route path="/login">
+      <Login />
+    </Route>
+    <Route path="/register">
+      <Register />
+    </Route>
+  </>
+);
